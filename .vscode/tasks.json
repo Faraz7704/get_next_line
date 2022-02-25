@@ -1,0 +1,52 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "make project",
+            "command": "",
+            "args": [
+                "make",
+                "--directory=${workspaceFolder}",
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "cppbuild",
+            "label": "build project",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "-D",
+                "BUFFER_SIZE=42",
+                "${fileDirname}/main.c",
+                "${file}",
+                "${fileDirname}/${fileBasenameNoExtension}.a"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": "$gcc",
+            "group": "build",
+            "dependsOn":["make project"]
+        },
+        {
+            "type": "cppbuild",
+            "label": "run project",
+            "command": "./a.out",
+            "args": [],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": "$gcc",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn":["build project"]
+        }
+    ],
+    "version": "2.0.0"
+}

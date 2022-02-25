@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.properties": "properties",
+        "stdlib.h": "c",
+        "sstream": "c",
+        "__locale": "c",
+        "get_next_line.h": "c"
+    }
+}
