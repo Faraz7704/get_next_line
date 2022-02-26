@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 17:06:22 by fkhan             #+#    #+#             */
-/*   Updated: 2022/02/25 16:02:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/02/26 23:16:21 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +26,7 @@ char	*ft_strdup(const char *str, char sep)
 	return (result);
 }
 
-char *ft_savebuff(char *buffer)
+char	*ft_savebuff(char *buffer)
 {
 	int		len;
 	int		linelen;
@@ -44,6 +43,11 @@ char *ft_savebuff(char *buffer)
 	if (!newbuff)
 		return (0);
 	ft_strlcpy(newbuff, &buffer[linelen + 1], len, '\0');
+	if (!newbuff[0])
+	{
+		free(newbuff);
+		newbuff = NULL;
+	}
 	free(buffer);
 	return (newbuff);
 }
@@ -57,19 +61,17 @@ char	*ft_readline(int fd, char *buffer)
 	localbuff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!localbuff)
 		return (0);
+	localbuff[0] = '\0';
 	result = 1;
 	while (result != 0 && !ft_strchr(localbuff, '\n'))
 	{
 		result = read(fd, localbuff, BUFFER_SIZE);
-		// printf("result: %d\n", result);
 		if (result < 0)
-			break;
+			break ;
 		localbuff[result] = '\0';
 		newbuff = ft_strjoin(buffer, localbuff);
 		free(buffer);
 		buffer = newbuff;
-		// printf("localbuff: %s\n", localbuff);
-		// printf("buffer: %s\n", buffer);
 	}
 	free(localbuff);
 	return (buffer);
@@ -77,19 +79,15 @@ char	*ft_readline(int fd, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[MAX_FD];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
 		return (0);
-	buffer = ft_readline(fd, buffer);
-	if (!buffer || !buffer[0])
-	{
-		free(buffer);
+	buffer[fd] = ft_readline(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (0);
-	}
-	line = ft_strdup(buffer, '\n');
-	// printf("line: %s\n", line);
-	buffer = ft_savebuff(buffer);
+	line = ft_strdup(buffer[fd], '\n');
+	buffer[fd] = ft_savebuff(buffer[fd]);
 	return (line);
 }
