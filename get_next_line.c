@@ -6,27 +6,13 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 17:06:22 by fkhan             #+#    #+#             */
-/*   Updated: 2022/02/26 23:16:40 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/02/28 15:18:24 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *str, char sep)
-{
-	int		len;
-	char	*result;
-
-	len = ft_strlen(str, sep) + 1;
-	result = (char *)malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (0);
-	ft_strlcpy(result, str, len, sep);
-	result[len] = '\0';
-	return (result);
-}
-
-char	*ft_savebuff(char *buffer)
+char	*ft_trimbuff(char *buffer)
 {
 	int		len;
 	int		linelen;
@@ -88,6 +74,6 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (0);
 	line = ft_strdup(buffer, '\n');
-	buffer = ft_savebuff(buffer);
+	buffer = ft_trimbuff(buffer);
 	return (line);
 }

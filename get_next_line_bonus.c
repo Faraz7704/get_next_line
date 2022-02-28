@@ -6,25 +6,11 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 17:06:22 by fkhan             #+#    #+#             */
-/*   Updated: 2022/02/26 23:16:21 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/02/28 15:21:38 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-char	*ft_strdup(const char *str, char sep)
-{
-	int		len;
-	char	*result;
-
-	len = ft_strlen(str, sep) + 1;
-	result = (char *)malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (0);
-	ft_strlcpy(result, str, len, sep);
-	result[len] = '\0';
-	return (result);
-}
 
 char	*ft_savebuff(char *buffer)
 {

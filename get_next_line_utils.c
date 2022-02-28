@@ -6,7 +6,7 @@
 /*   By: fkhan <fkhan@student.42abudhabi.ae>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 15:41:22 by fkhan             #+#    #+#             */
-/*   Updated: 2022/02/26 23:00:34 by fkhan            ###   ########.fr       */
+/*   Updated: 2022/02/28 15:20:51 by fkhan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,42 +57,42 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t n, char sep)
 	return (srcsize);
 }
 
-size_t	ft_strlcat(char *dest, const char *src, size_t n, char sep)
+char	*ft_strdup(const char *str, char sep)
 {
-	size_t	i;
-	size_t	j;
+	int		len;
+	char	*result;
 
-	if (!src)
+	len = ft_strlen(str, sep) + 1;
+	result = (char *)malloc(sizeof(char) * (len + 1));
+	if (!result)
 		return (0);
-	j = ft_strlen(dest, sep);
-	if (n <= j)
-		return (n + ft_strlen(src, sep));
-	i = 0;
-	while (src[i] != sep && j < n - 1)
-	{
-		dest[j] = src[i];
-		i++;
-		j++;
-	}
-	dest[j] = '\0';
-	return (ft_strlen(dest, sep) + ft_strlen(&src[i], sep));
+	ft_strlcpy(result, str, len, sep);
+	result[len] = '\0';
+	return (result);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	char	*result;
-	int		s1_size;
+	int		i;
+	int		j;
 	int		total_size;
+	char	*result;
 
-	s1_size = ft_strlen(s1, '\0');
-	total_size = s1_size + ft_strlen(s2, '\0') + 1;
+	i = 0;
+	j = 0;
+	total_size = ft_strlen(s1, '\0') + ft_strlen(s2, '\0') + 1;
 	if (total_size == 1)
 		return (0);
-	result = (char *)malloc(sizeof(char) * total_size);
-	if (result)
+	result = (char *)malloc(total_size);
+	if (!result)
+		return (0);
+	while (s1 && s1[i] != '\0')
 	{
-		ft_strlcpy(result, s1, s1_size + 1, '\0');
-		ft_strlcat(result, s2, total_size, '\0');
+		result[i] = s1[i];
+		i++;
 	}
+	while (s2 && s2[j] != '\0')
+		result[i++] = s2[j++];
+	result[i] = '\0';
 	return (result);
 }
